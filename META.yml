@@ -1,42 +1,47 @@
 ---
 name: Perl-Critic-Moose
-version: 0.999_001
+version: 0.999_002
 author:
   - 'Elliot Shank <perl@galumph.com>'
 abstract: 'Policies for Perl::Critic concerned with using Moose, the "post-modern" object system for Perl.'
 license: perl
 resources:
   MailingList: http://perlcritic.tigris.org/servlets/SummarizeList?listName=users
-  Repository: http://perlcritic.tigris.org/svn/perlcritic/trunk/Perl-Critic-Moose/
+  Repository: http://guest@perlcritic.tigris.org/svn/perlcritic/trunk/distributions/Perl-Critic-Moose/
   homepage: http://perlcritic.com
   license: http://dev.perl.org/licenses/
 requires:
-  Perl::Critic::Policy: 1.093_02
-  Perl::Critic::Utils: 1.093_02
-  Perl::Critic::Utils::PPI: 1.093_02
+  Perl::Critic::Policy: 1.098
+  Perl::Critic::Utils: 1.098
+  Perl::Critic::Utils::PPI: 1.098
   Readonly: 0
   base: 0
   strict: 0
-  version: 0
   warnings: 0
 build_requires:
   Carp: 0
   English: 0
-  Perl::Critic::TestUtils: 1.093_02
-  strict: 0
-  warnings: 0
+  Perl::Critic::TestUtils: 1.098
+  Perl::Critic::Utils: 1.098
+  Perl::Critic::Violation: 1.098
 dynamic_config: 0
 provides:
   Perl::Critic::Moose:
     file: lib/Perl/Critic/Moose.pm
-    version: 0.999_001
+    version: 0.999_002
+  Perl::Critic::Policy::Moose::ProhibitMultipleWiths:
+    file: lib/Perl/Critic/Policy/Moose/ProhibitMultipleWiths.pm
+    version: 0.999_002
+  Perl::Critic::Policy::Moose::ProhibitNewMethod:
+    file: lib/Perl/Critic/Policy/Moose/ProhibitNewMethod.pm
+    version: 0.999_002
   Perl::Critic::Policy::Moose::RequireCleanNamespace:
     file: lib/Perl/Critic/Policy/Moose/RequireCleanNamespace.pm
-    version: 0.999_001
+    version: 0.999_002
   Perl::Critic::Policy::Moose::RequireMakeImmutable:
     file: lib/Perl/Critic/Policy/Moose/RequireMakeImmutable.pm
-    version: 0.999_001
-generated_by: Module::Build version 0.3
+    version: 0.999_002
+generated_by: Module::Build version 0.33
 meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4

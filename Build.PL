@@ -1,9 +1,9 @@
 #!perl
 
-#      $URL: http://perlcritic.tigris.org/svn/perlcritic/trunk/Perl-Critic-Moose/Build.PL $
-#     $Date: 2008-10-30 09:36:26 -0500 (Thu, 30 Oct 2008) $
+#      $URL: http://perlcritic.tigris.org/svn/perlcritic/trunk/distributions/Perl-Critic-Moose/Build.PL $
+#     $Date: 2009-05-15 19:31:09 -0500 (Fri, 15 May 2009) $
 #   $Author: clonezone $
-# $Revision: 2845 $
+# $Revision: 3335 $
 
 use 5.008;  # Moose's minimum version.
 
@@ -23,7 +23,7 @@ my $class = Module::Build->subclass( code => <<'END_SUBCLASS' );
         $self->depends_on('manifest');
 
         return $self->SUPER::ACTION_test();
-    }
+    } # end ACTION_test()
 
     sub ACTION_authortest {
         my ($self) = @_;
@@ -60,22 +60,21 @@ my $builder = $class->new(
     sign                => 0,
 
     requires            => {
-        'Perl::Critic::Policy'      => '1.093_02',
-        'Perl::Critic::Utils'       => '1.093_02',
-        'Perl::Critic::Utils::PPI'  => '1.093_02',
-        Readonly                    => 0,
         base                        => 0,
+        'Perl::Critic::Policy'      => '1.098',
+        'Perl::Critic::Utils'       => '1.098',
+        'Perl::Critic::Utils::PPI'  => '1.098',
+        Readonly                    => 0,
         strict                      => 0,
-        version                     => 0,
         warnings                    => 0,
     },
 
     build_requires      => {
         Carp                        => 0,
         English                     => 0,
-        'Perl::Critic::TestUtils'   => '1.093_02',
-        strict                      => 0,
-        warnings                    => 0,
+        'Perl::Critic::TestUtils'   => '1.098',
+        'Perl::Critic::Utils'       => '1.098',
+        'Perl::Critic::Violation'   => '1.098',
     },
 
     recommends          => {
@@ -87,7 +86,7 @@ my $builder = $class->new(
         resources   => {
             homepage    => 'http://perlcritic.com',
             license     => 'http://dev.perl.org/licenses/',
-            Repository  => 'http://perlcritic.tigris.org/svn/perlcritic/trunk/Perl-Critic-Moose/',
+            Repository  => 'http://guest@perlcritic.tigris.org/svn/perlcritic/trunk/distributions/Perl-Critic-Moose/',
             MailingList => 'http://perlcritic.tigris.org/servlets/SummarizeList?listName=users',
         }
     },

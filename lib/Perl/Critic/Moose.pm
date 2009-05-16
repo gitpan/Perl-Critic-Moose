@@ -1,7 +1,7 @@
-#      $URL: http://perlcritic.tigris.org/svn/perlcritic/trunk/Perl-Critic-Moose/lib/Perl/Critic/Moose.pm $
-#     $Date: 2008-10-30 09:36:26 -0500 (Thu, 30 Oct 2008) $
+#      $URL: http://perlcritic.tigris.org/svn/perlcritic/trunk/distributions/Perl-Critic-Moose/lib/Perl/Critic/Moose.pm $
+#     $Date: 2009-05-15 19:35:37 -0500 (Fri, 15 May 2009) $
 #   $Author: clonezone $
-# $Revision: 2845 $
+# $Revision: 3336 $
 
 package Perl::Critic::Moose;
 
@@ -10,7 +10,7 @@ use 5.008;  # Moose's minimum version.
 use strict;
 use warnings;
 
-our $VERSION = '0.999_001';
+our $VERSION = '0.999_002';
 
 1; # Magic true value required at end of module
 
@@ -33,7 +33,7 @@ announcing their participation in this grouping.
 
 =head1 VERSION
 
-This document describes Perl::Critic::Moose version 0.999_001.
+This document describes Perl::Critic::Moose version 0.999_002.
 
 
 =head1 SYNOPSIS
@@ -48,9 +48,25 @@ The included policies are:
 
 =over
 
+=item L<Perl::Critic::Policy::Moose::ProhibitMultipleWiths>
+
+Compose your roles to enjoy safe composition.  [Severity: 4]
+
+
+=item L<Perl::Critic::Policy::Moose::ProhibitNewMethod>
+
+Don't override the built-in constructors.  [Severity: 4]
+
+
 =item L<Perl::Critic::Policy::Moose::RequireCleanNamespace>
 
 Require removing implementation details from you packages.  [Severity: 3]
+
+
+=item L<Perl::Critic::Policy::Moose::RequireMakeImmutable>
+
+Increase performance by freezing your class structures with
+C<< __PACKAGE__->meta()->make_immutable() >>.  [Severity: 3]
 
 
 =back
@@ -98,7 +114,7 @@ Elliot Shank  C<< <perl@galumph.com> >>
 
 =head1 COPYRIGHT
 
-Copyright (c)2008, Elliot Shank C<< <perl@galumph.com> >>. Some rights
+Copyright (c)2008-2009, Elliot Shank C<< <perl@galumph.com> >>. Some rights
 reserved.
 
 This module is free software; you can redistribute it and/or modify it under

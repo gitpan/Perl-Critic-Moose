@@ -1,16 +1,16 @@
 #!/usr/bin/env perl
 
-#      $URL: http://perlcritic.tigris.org/svn/perlcritic/trunk/Perl-Critic-Moose/xt/author/perlcritic-tests.t $
-#     $Date: 2008-10-30 09:36:26 -0500 (Thu, 30 Oct 2008) $
+#      $URL: http://perlcritic.tigris.org/svn/perlcritic/trunk/distributions/Perl-Critic-Moose/xt/author/perlcritic-tests.t $
+#     $Date: 2009-05-15 19:35:37 -0500 (Fri, 15 May 2009) $
 #   $Author: clonezone $
-# $Revision: 2845 $
+# $Revision: 3336 $
 
 use 5.008;  # Moose's minimum version.
 
 use strict;
 use warnings;
 
-our $VERSION = '0.999_001';
+our $VERSION = '0.999_002';
 
 use Test::Perl::Critic (
     -severity => 1,

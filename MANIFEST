@@ -1,10 +1,14 @@
 Build.PL
 Changes
 lib/Perl/Critic/Moose.pm
+lib/Perl/Critic/Policy/Moose/ProhibitMultipleWiths.pm
+lib/Perl/Critic/Policy/Moose/ProhibitNewMethod.pm
 lib/Perl/Critic/Policy/Moose/RequireCleanNamespace.pm
 lib/Perl/Critic/Policy/Moose/RequireMakeImmutable.pm
 MANIFEST			This list of files
 README
+t/Moose/ProhibitMultipleWiths.run
+t/Moose/ProhibitNewMethod.run
 t/Moose/RequireCleanNamespace.run
 t/Moose/RequireMakeImmutable.run
 t/policies.t

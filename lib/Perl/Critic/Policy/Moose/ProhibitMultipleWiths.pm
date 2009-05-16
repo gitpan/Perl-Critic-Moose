@@ -1,9 +1,9 @@
-#      $URL: http://perlcritic.tigris.org/svn/perlcritic/trunk/distributions/Perl-Critic-Moose/lib/Perl/Critic/Policy/Moose/RequireMakeImmutable.pm $
+#      $URL: http://perlcritic.tigris.org/svn/perlcritic/trunk/distributions/Perl-Critic-Moose/lib/Perl/Critic/Policy/Moose/ProhibitMultipleWiths.pm $
 #     $Date: 2009-05-15 19:35:37 -0500 (Fri, 15 May 2009) $
 #   $Author: clonezone $
 # $Revision: 3336 $
 
-package Perl::Critic::Policy::Moose::RequireMakeImmutable;
+package Perl::Critic::Policy::Moose::ProhibitMultipleWiths;
 
 use 5.008;  # Moose's minimum version.
 
@@ -20,14 +20,14 @@ use Perl::Critic::Utils::PPI qw< is_ppi_generic_statement >;
 use base 'Perl::Critic::Policy';
 
 
-Readonly::Scalar my $DESCRIPTION => 'No call was made to make_immutable().';
+Readonly::Scalar my $DESCRIPTION => 'Multiple calls to with() were made.';
 Readonly::Scalar my $EXPLANATION =>
-    q<Moose can't optimize itself if classes remain mutable.>;
+    q<Roles cannot protect against name conflicts if they are not composed.>;
 
 
 sub supported_parameters { return ();                       }
-sub default_severity     { return $SEVERITY_MEDIUM;         }
-sub default_themes       { return qw( moose performance );  }
+sub default_severity     { return $SEVERITY_HIGH;           }
+sub default_themes       { return qw( bugs moose roles );   }
 sub applies_to           { return 'PPI::Document'           }
 
 
@@ -53,7 +53,7 @@ sub prepare_to_scan_document {
 sub violates {
     my ($self, undef, $document) = @_;
 
-    my $makes_immutable = $document->find_any(
+    my $with_statements = $document->find(
         sub {
             my (undef, $element) = @_;
 
@@ -62,39 +62,17 @@ sub violates {
             my $current_token = $element->schild(0);
             return $FALSE if not $current_token;
             return $FALSE if not $current_token->isa('PPI::Token::Word');
-            return $FALSE if $current_token->content() ne '__PACKAGE__';
-
-            $current_token = $current_token->snext_sibling();
-            return $FALSE if not $current_token;
-            return $FALSE if not $current_token->isa('PPI::Token::Operator');
-            return $FALSE if $current_token->content() ne '->';
-
-            $current_token = $current_token->snext_sibling();
-            return $FALSE if not $current_token;
-            return $FALSE if not $current_token->isa('PPI::Token::Word');
-            return $FALSE if $current_token->content() ne 'meta';
-
-            $current_token = $current_token->snext_sibling();
-            return $FALSE if not $current_token;
-            if ( $current_token->isa('PPI::Structure::List' ) ) {
-                $current_token = $current_token->snext_sibling();
-                return $FALSE if not $current_token;
-            }
-
-            return $FALSE if not $current_token->isa('PPI::Token::Operator');
-            return $FALSE if $current_token->content() ne '->';
-
-            $current_token = $current_token->snext_sibling();
-            return $FALSE if not $current_token;
-            return $FALSE if not $current_token->isa('PPI::Token::Word');
-            return $FALSE if $current_token->content() ne 'make_immutable';
+            return $FALSE if $current_token->content() ne 'with';
 
             return $TRUE;
         }
     );
 
-    return if $makes_immutable;
-    return $self->violation($DESCRIPTION, $EXPLANATION, $document);
+    return if not $with_statements;
+    return if @{ $with_statements } < 2;
+
+    my $second_with = $with_statements->[1];
+    return $self->violation($DESCRIPTION, $EXPLANATION, $second_with);
 } # end violates()
 
 
@@ -106,7 +84,7 @@ __END__
 
 =head1 NAME
 
-Perl::Critic::Policy::Moose::RequireMakeImmutable - Make your Moose code fast.
+Perl::Critic::Policy::Moose::ProhibitMultipleWiths - Require role composition
 
 
 =head1 AFFILIATION
@@ -116,18 +94,18 @@ This policy is part of L<Perl::Critic::Moose>.
 
 =head1 VERSION
 
-This document describes Perl::Critic::Policy::Moose::RequireMakeImmutable
+This document describes Perl::Critic::Policy::Moose::ProhibitMultipleWiths
 version 0.999_002.
 
 
 =head1 DESCRIPTION
 
-L<Moose> is very flexible.  That flexibility comes at a performance cost.  You
-can ameliorate most of it by telling Moose when you are done putting your
-classes together.
+L<Moose::Role>s are, among other things, the answer to name conflicts plaguing
+multiple inheritance and mix-ins. However, to enjoy this protection, you must
+compose your roles together.  Roles do not generate conflicts if they are
+consumed individually.
 
-Thus, if you C<use Moose>, this policy requires that you do
-C<< __PACKAGE__->meta()->make_immutable() >>.
+Pass all of your roles to a single L<Moose/with> statement.
 
 
 =head1 CONFIGURATION
@@ -137,7 +115,7 @@ This policy has no configuration options beyond the standard ones.
 
 =head1 SEE ALSO
 
-L<http://search.cpan.org/dist/Moose/lib/Moose/Cookbook/Basics/Recipe7.pod>
+L<http://search.cpan.org/dist/Moose/lib/Moose/Cookbook/Roles/Recipe2.pod>
 
 
 =head1 BUGS AND LIMITATIONS
@@ -153,12 +131,12 @@ L<http://rt.cpan.org>.
 
 =head1 AUTHOR
 
-Elliot Shank  C<< <perl@galumph.com> >>
+Shawn Moore  C<< <sartak@bestpractical.com> >>
 
 
 =head1 COPYRIGHT
 
-Copyright (c)2008-2009, Elliot Shank C<< <perl@galumph.com> >>. Some rights
+Copyright (c)2009, Shawn Moore C<< <sartak@bestpractical.com> >>. Some rights
 reserved.
 
 This module is free software; you can redistribute it and/or modify it under
